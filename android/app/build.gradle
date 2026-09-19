@@ -1,0 +1,44 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "tr.ring.saatleri"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "tr.ring.saatleri"
+        minSdk 24
+        targetSdk 34
+        // CI her derlemede artırır; elle derlerken 1 kalır
+        versionCode = (System.getenv("APP_VERSION_CODE") ?: "1").toInteger()
+        versionName = "1." + (System.getenv("APP_VERSION_CODE") ?: "0")
+    }
+
+    signingConfigs {
+        ring {
+            storeFile file("ring.keystore")
+            storeType "PKCS12"
+            storePassword "ringsaatleri"
+            keyAlias "ring"
+            keyPassword "ringsaatleri"
+        }
+    }
+
+    buildTypes {
+        debug { signingConfig signingConfigs.ring }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.ring
+        }
+    }
+
+    lint {
+        checkReleaseBuilds false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
