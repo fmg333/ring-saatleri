@@ -1,5 +1,5 @@
 // Çevrimdışı çalışma için basit önbellek. Saatler değişince CACHE adını artır (v2, v3...).
-const CACHE = 'ring-v1';
+const CACHE = 'ring-v7';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

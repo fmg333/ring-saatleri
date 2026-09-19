@@ -1,6 +1,6 @@
 {
-  "name": "Ring saatleri",
-  "short_name": "Ring",
+  "name": "Time of the Rings",
+  "short_name": "Time of the Rings",
   "description": "G1 – 1100 ring seferleri: yaklaşan ringler ve durak arası yolculuk",
   "start_url": "./index.html",
   "scope": "./",

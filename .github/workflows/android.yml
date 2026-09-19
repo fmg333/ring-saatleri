@@ -3,7 +3,7 @@ name: APK üret
 on:
   push:
     branches: [main]
-    paths: ["index.html", "android/**", ".github/workflows/android.yml"]
+    paths: ["index.html", "ring-data.json", "android/**", ".github/workflows/android.yml"]
   workflow_dispatch:
 
 permissions:
@@ -28,10 +28,10 @@ jobs:
         with:
           gradle-version: "8.7"
 
-      - name: Web dosyasını APK içine kopyala
+      - name: Web dosyalarını APK içine kopyala
         run: |
           mkdir -p android/app/src/main/assets/www
-          cp index.html android/app/src/main/assets/www/index.html
+          cp index.html ring-data.json android/app/src/main/assets/www/
 
       - name: APK derle
         working-directory: android
