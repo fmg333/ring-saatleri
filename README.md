@@ -30,6 +30,21 @@ Ana ekranda boş bir yere uzun bas → *Widget'lar* → **Time of the Rings** �
 - Boyutu değiştirilebilir; birden fazla widget koyup farklı duraklar seçebilirsin.
 - Günün seferleri bittiyse yarının ilk seferlerini "yarın 08:00" diye gösterir.
 
+## Güncelleme nasıl yayılıyor
+
+Saat değişikliğinde kimseye yeni APK atmana gerek yok:
+
+- **iPhone / Pages:** Sayfa her açılışta ağdan tazelenir, internet yoksa önbellekten açılır.
+- **Android APK:** Uygulama açılışta (en sık 6 saatte bir) GitHub Pages'teki `index.html` ve `ring-data.json`
+  dosyalarına bakar, değiştiyse indirip telefona yazar. Widget da bu kopyayı kullanır. İnternet yoksa
+  APK'nın içindeki sürümle çalışmaya devam eder. Güncelleme inince "Saatler güncellendi" yazısı çıkar.
+- **APK'nın kendisi** değiştiğinde (yeni özellik, ikon, arayüz) uygulama Releases'teki son sürüme bakar ve
+  daha yenisi varsa indirme sayfasını açmayı teklif eder. Sadece saatler değiştiyse buna gerek kalmaz.
+
+Adresler derleme sırasında repo adından otomatik doldurulur (`android/app/build.gradle` içindeki
+`repoSlug` / `pagesUrl`), elle bir şey yazman gerekmiyor. Yeni APK kurulunca indirilmiş kopyalar
+silinir, APK'daki sürüm baz alınır.
+
 ## Saatler değişince
 
 1. Gidiş-dönüş ringler için `ringsaatleri.xlsx`, tek yön servisler için `tekyon.csv` dosyasını güncelle.
@@ -38,7 +53,7 @@ Ana ekranda boş bir yere uzun bas → *Widget'lar* → **Time of the Rings** �
 3. `sw.js` içindeki `ring-v2` → `ring-v3` (Pages'ten kuranların önbelleği yenilensin).
 4. GitHub Desktop → *Commit to main* → *Push origin*.
 
-Pages birkaç dakikada güncellenir, yeni APK Releases'e düşer.
+Pages birkaç dakikada güncellenir; telefonlardaki uygulamalar yeni saatleri kendiliğinden çeker, yeni APK de Releases'e düşer.
 
 ## İkon
 

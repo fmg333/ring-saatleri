@@ -2,6 +2,10 @@ plugins {
     id "com.android.application"
 }
 
+// Güncelleme adresleri: GitHub Actions'ta otomatik dolar, elde derlerken aşağıdaki varsayılan kullanılır
+def repoSlug = System.getenv("GITHUB_REPOSITORY") ?: "OWNER/ring-saatleri"
+def pagesUrl = "https://" + repoSlug.split("/")[0] + ".github.io/" + repoSlug.split("/")[1] + "/"
+
 android {
     namespace "tr.ring.saatleri"
     compileSdk 34
@@ -13,6 +17,9 @@ android {
         // CI her derlemede artırır; elle derlerken 1 kalır
         versionCode = (System.getenv("APP_VERSION_CODE") ?: "1").toInteger()
         versionName = "1." + (System.getenv("APP_VERSION_CODE") ?: "0")
+
+        resValue "string", "repo_slug", repoSlug
+        resValue "string", "update_base_url", pagesUrl
     }
 
     signingConfigs {

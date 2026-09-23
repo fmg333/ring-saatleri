@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,19 +42,38 @@ class Schedule {
 
     private static JSONObject cache;
 
+    /** Güncelleme indirildiyse onu, yoksa APK içindeki kopyayı okur. */
     private static JSONObject data(Context c) throws Exception {
         if (cache == null) {
-            InputStream in = c.getAssets().open("www/ring-data.json");
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buf = new byte[8192];
-            int n;
-            while ((n = in.read(buf)) > 0) {
-                out.write(buf, 0, n);
+            File f = Updater.localFile(c, "ring-data.json");
+            if (f.exists()) {
+                try {
+                    cache = new JSONObject(read(new FileInputStream(f)));
+                } catch (Exception e) {
+                    f.delete();          // bozuk indirme: APK'daki kopyaya dön
+                }
             }
-            in.close();
-            cache = new JSONObject(new String(out.toByteArray(), "UTF-8"));
+            if (cache == null) {
+                cache = new JSONObject(read(c.getAssets().open("www/ring-data.json")));
+            }
         }
         return cache;
+    }
+
+    /** Veri güncellenince çağrılır; bir sonraki okumada yeniden yüklenir. */
+    static void invalidate() {
+        cache = null;
+    }
+
+    private static String read(InputStream in) throws Exception {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int n;
+        while ((n = in.read(buf)) > 0) {
+            out.write(buf, 0, n);
+        }
+        in.close();
+        return new String(out.toByteArray(), "UTF-8");
     }
 
     static List<String> stops(Context c) {
