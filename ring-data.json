@@ -1,22 +1,28 @@
 {
  "ends": [
   "G1",
-  "1100"
+  "G9"
  ],
  "stops": [
+  "10",
+  "20",
   "40",
+  "160",
   "170",
   "200",
   "202",
   "210",
+  "220",
   "280",
   "320",
   "410",
   "420",
+  "510",
   "557",
   "610",
   "710",
   "750",
+  "760",
   "810",
   "850",
   "910",
@@ -27,16 +33,17 @@
   "1020",
   "1030",
   "1050",
-  "1100",
   "B4",
   "B5",
-  "G1"
+  "G1",
+  "G4",
+  "G9"
  ],
  "rings": {
   "1": {
    "weekday": {
     "stops": [
-     "1100",
+     "G9",
      "1030",
      "1050",
      "911",
@@ -60,7 +67,7 @@
      "911",
      "1050",
      "1030",
-     "1100"
+     "G9"
     ],
     "trips": [
      [
@@ -1822,7 +1829,7 @@
    },
    "weekend": {
     "stops": [
-     "1100",
+     "G9",
      "1030",
      "1050",
      "911",
@@ -1846,7 +1853,7 @@
      "911",
      "1050",
      "1030",
-     "1100"
+     "G9"
     ],
     "trips": [
      [
@@ -3000,7 +3007,7 @@
      "960",
      "911",
      "1050",
-     "1100",
+     "G9",
      "1020",
      "1050",
      "961",
@@ -3044,6 +3051,62 @@
       506,
       507,
       508
+     ],
+     [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      485,
+      487,
+      487,
+      489,
+      491,
+      492,
+      494,
+      495,
+      495,
+      497,
+      498,
+      499,
+      500,
+      501,
+      502
+     ],
+     [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      497,
+      499,
+      499,
+      501,
+      503,
+      504,
+      506,
+      507,
+      507,
+      509,
+      510,
+      511,
+      512,
+      513,
+      514
      ],
      [
       500,
@@ -3788,7 +3851,7 @@
      "960",
      "911",
      "1050",
-     "1100",
+     "G9",
      "1020",
      "1050",
      "961",
@@ -4244,7 +4307,7 @@
      "750",
      "961",
      "1050",
-     "1100",
+     "G9",
      "1020",
      "1050",
      "911",
@@ -5340,7 +5403,7 @@
      "750",
      "961",
      "1050",
-     "1100",
+     "G9",
      "1020",
      "1050",
      "911",
@@ -6114,5 +6177,1849 @@
     ]
    }
   }
- }
+ },
+ "oneway": [
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    370,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "1030"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    390,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "960",
+    "950",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    390,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    395,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    398,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    398,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "1030"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    400,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    405,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "960",
+    "950",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    405,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "1030"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    410,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    412,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    412,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    415,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    425,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    435,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    435,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    435,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    450,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    450,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    450,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    455,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    455,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    455,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    455,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    458,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "1030"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    460,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    460,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    460,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    460,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    463,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    465,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    465,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    465,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "1030"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    470,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "160",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    473,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    475,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    475,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    475,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    477,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    480,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    480,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    480,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "10",
+    "20",
+    "40",
+    "220",
+    "320",
+    "710",
+    "950",
+    "960",
+    "1050",
+    "961",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    487,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    495,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    500,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    500,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    510,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    520,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    520,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    525,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    540,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    540,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    540,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    555,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    560,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    560,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    570,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    580,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    580,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    585,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G1",
+    "420",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760",
+    "910"
+   ],
+   "board": "first",
+   "note": "otoban",
+   "label": "TEK",
+   "times": [
+    600,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G4",
+    "850",
+    "202",
+    "557",
+    "750"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    600,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    600,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "1050",
+    "G9"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    1090,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "750",
+    "910",
+    "557",
+    "202",
+    "850",
+    "G4"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    1092,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "1050",
+    "G1"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    1095,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "750",
+    "910",
+    "557",
+    "202",
+    "850",
+    "G4"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    1110,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "1050",
+    "G9"
+   ],
+   "board": "first",
+   "label": "TEK",
+   "times": [
+    1125,
+    null
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "1030",
+    "1050",
+    "960",
+    "950",
+    "810",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1145,
+    1147,
+    1148,
+    1148,
+    1155
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "1050",
+    "960",
+    "950",
+    "810",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1145,
+    1146,
+    1146,
+    1153
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "280",
+    "610",
+    "510",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1144,
+    1146,
+    1148
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "710",
+    "320",
+    "220",
+    "40",
+    "20",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1144,
+    1145,
+    1146,
+    1148,
+    1150
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "750",
+    "557",
+    "202",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1146,
+    1147,
+    1154
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "750",
+    "557",
+    "202",
+    "850",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1146,
+    1147,
+    1147,
+    1154
+   ]
+  },
+  {
+   "day": "weekday",
+   "stops": [
+    "961",
+    "910",
+    "850",
+    "200",
+    "G1"
+   ],
+   "board": "all",
+   "note": "fazla mesai",
+   "label": "FM",
+   "times": [
+    1143,
+    1146,
+    1149,
+    1151,
+    1156
+   ]
+  }
+ ]
 }

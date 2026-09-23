@@ -21,13 +21,13 @@ public class RingWidget extends AppWidgetProvider {
 
     static final String PREFS = "ring_widget";
     static final String ACTION_TICK = "tr.ring.saatleri.TICK";
-    private static final int ROWS = 3;
+    private static final int ROWS = 7;
 
-    private static final int[] ROW = {R.id.row1, R.id.row2, R.id.row3};
-    private static final int[] BADGE = {R.id.badge1, R.id.badge2, R.id.badge3};
-    private static final int[] DIR = {R.id.dir1, R.id.dir2, R.id.dir3};
-    private static final int[] CLOCK = {R.id.clock1, R.id.clock2, R.id.clock3};
-    private static final int[] MIN = {R.id.min1, R.id.min2, R.id.min3};
+    private static final int[] ROW = {R.id.row1, R.id.row2, R.id.row3, R.id.row4, R.id.row5, R.id.row6, R.id.row7};
+    private static final int[] BADGE = {R.id.badge1, R.id.badge2, R.id.badge3, R.id.badge4, R.id.badge5, R.id.badge6, R.id.badge7};
+    private static final int[] DIR = {R.id.dir1, R.id.dir2, R.id.dir3, R.id.dir4, R.id.dir5, R.id.dir6, R.id.dir7};
+    private static final int[] CLOCK = {R.id.clock1, R.id.clock2, R.id.clock3, R.id.clock4, R.id.clock5, R.id.clock6, R.id.clock7};
+    private static final int[] MIN = {R.id.min1, R.id.min2, R.id.min3, R.id.min4, R.id.min5, R.id.min6, R.id.min7};
 
     /* ---------- ayarlar ---------- */
 
@@ -49,6 +49,9 @@ public class RingWidget extends AppWidgetProvider {
     /* ---------- çizim ---------- */
 
     private static int badgeRes(String ring) {
+        if (ring == null) {
+            return R.drawable.badge_tk;     // ek servis (TEK / FM)
+        }
         if ("2".equals(ring)) {
             return R.drawable.badge_r2;
         }
@@ -80,10 +83,41 @@ public class RingWidget extends AppWidgetProvider {
         }
     }
 
+    /** Widget'ın boyuna kaç sefer satırı sığıyorsa o kadarını gösterir. */
+    private static int rowCount(AppWidgetManager m, int widgetId) {
+        int h = 0;
+        try {
+            Bundle o = m.getAppWidgetOptions(widgetId);
+            if (o != null) {
+                h = o.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0);
+            }
+        } catch (Exception e) {
+            h = 0;
+        }
+        if (h <= 0) {
+            return ROWS;
+        }
+        int n = (h - 48) / 24;              // başlık + iç boşluk ~48dp, her sefer satırı ~24dp
+        return Math.max(1, Math.min(ROWS, n));
+    }
+
+    /** Dar widget'ta varış listesini ilk birkaç durakla sınırla. */
+    private static String shortDest(String s, int n) {
+        int idx = -1;
+        for (int k = 0; k < n; k++) {
+            idx = s.indexOf(',', idx + 1);
+            if (idx < 0) {
+                return s;
+            }
+        }
+        return s.substring(0, idx) + "…";
+    }
+
     static void update(Context c, AppWidgetManager m, int widgetId) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.ring_widget);
         String stop = stopOf(c, widgetId);
         boolean wide = isWide(m, widgetId);
+        int rows = rowCount(m, widgetId);
 
         if (stop == null) {
             v.setTextViewText(R.id.stop, "Durak seçilmedi");
@@ -99,19 +133,25 @@ public class RingWidget extends AppWidgetProvider {
         }
 
         int now = Schedule.nowMinutes();
-        List<Schedule.Dep> deps = Schedule.next(c, stop, ROWS);
+        List<Schedule.Dep> deps = Schedule.next(c, stop, rows);
 
         v.setTextViewText(R.id.stop, stop);
         v.setTextViewText(R.id.day, Schedule.dayLabel(Calendar.getInstance()));
 
         for (int i = 0; i < ROWS; i++) {
-            if (i < deps.size()) {
+            if (i < rows && i < deps.size()) {
                 Schedule.Dep d = deps.get(i);
                 int diff = d.time - now + (d.tomorrow ? 24 * 60 : 0);
                 v.setViewVisibility(ROW[i], View.VISIBLE);
-                v.setTextViewText(BADGE[i], "R" + d.ring);
+                v.setTextViewText(BADGE[i], d.isExtra() ? d.label : "R" + d.ring);
                 v.setInt(BADGE[i], "setBackgroundResource", badgeRes(d.ring));
-                String dirText = wide ? d.dir + " yönü" : "→ " + d.dir;
+                String dirText;
+                if (d.isExtra()) {
+                    // "G1 yönü" gibi hazır gelen metin olduğu gibi, durak listesi ise kısaltılır
+                    dirText = d.dir.endsWith(" yönü") ? d.dir : "→ " + (wide ? d.dir : shortDest(d.dir, 2));
+                } else {
+                    dirText = wide ? d.dir + " yönü" : "→ " + d.dir;
+                }
                 if (!wide && d.tomorrow) {
                     dirText = dirText + " (yarın)";   // dar widget'ta saat sütunu yok
                 }

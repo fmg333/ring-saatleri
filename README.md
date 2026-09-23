@@ -24,7 +24,7 @@ G1 – 1100 arası üç ringin seferleri. Tek repo, iki çıktı:
 
 Ana ekranda boş bir yere uzun bas → *Widget'lar* → **Time of the Rings** → widget'ı sürükle → açılan listeden durağı seç.
 
-- Seçilen duraktan yaklaşan 3 ringi ring numarası, yön, saat ve kalan dakikayla gösterir.
+- Seçilen duraktan yaklaşan seferleri ring numarası, yön, saat ve kalan dakikayla gösterir; boyuna kaç satır sığıyorsa (en fazla 7) o kadarını.
 - Dakika başı kendini yeniler (ekran kapalıyken sistem birkaç dakika erteleyebilir).
 - Üstüne dokununca uygulama o durak seçili olarak açılır.
 - Boyutu değiştirilebilir; birden fazla widget koyup farklı duraklar seçebilirsin.
@@ -32,7 +32,7 @@ Ana ekranda boş bir yere uzun bas → *Widget'lar* → **Time of the Rings** �
 
 ## Saatler değişince
 
-1. `ringsaatleri.xlsx` dosyasını aynı düzende güncelle.
+1. Gidiş-dönüş ringler için `ringsaatleri.xlsx`, tek yön servisler için `tekyon.csv` dosyasını güncelle.
 2. `python ringsaatleri_to_json.py ringsaatleri.xlsx index.html`
    (hem `index.html` içine gömer hem `ring-data.json` dosyasını tazeler; widget bunu kullanır)
 3. `sw.js` içindeki `ring-v2` → `ring-v3` (Pages'ten kuranların önbelleği yenilensin).
@@ -74,4 +74,11 @@ widget önizlemesi ve uygulama başlığındaki küçük amblem (`index.html` i�
 - **Yolculuk:** Aynı seferde önce kalkış, sonra varış durağı aranır. Daha erken kalkıp daha geç varanlar gizlenir; liste varış saatine göre.
 - **Aktarma:** Doğrudan ring yoksa tek aktarmalı seçenekler (aktarmada en az 1, en fazla 60 dk bekleme).
 - **1020 = 1050:** Ring 2 ve 3'te 1020'nin arkasına aynı saatle 1050 eklenir (script'teki `SAME_STOP`).
+- **G9 = eski 1100:** Tablodaki 1100 durağı G9 olarak adlandırılır (`RENAME`), G-1/G-4/G-9 yazımları G1/G4/G9'a sadeleşir.
+- **Ek servisler (`tekyon.csv`):** `binis` sütunu belirler.
+  `ilk` → sadece kalkış durağından binilir, diğerlerinde iniş var, varış saati verilmez (gri **TEK** rozeti).
+  `hepsi` → her duraktan binilir, son durakta inilir; ara saatler ring verisindeki durak arası sürelerden hesaplanır
+  (fazla mesai ringleri, gri **FM** rozeti). Ringlerde hiç geçmeyen duraklar için süreler script'teki `LEG_OVERRIDE` tablosundan gelir.
+- **Yarım seferler (`HALF_TRIPS`):** Rotanın ortasından başlayan ring seferleri (ör. G9'dan kalkan 08:05 ve 08:17 Ring 2'leri).
+  Ara durak saatleri o ringin normal sefer süresinden türetilir; önceki duraklar o sefer için boş bırakılır.
 - **Açılış durakları:** Son seçtiğin iki durak hatırlanır. Hiç seçim yoksa (ilk açılış ya da tarayıcı kaydı sildiyse) 1050 → 1100 gelir; `index.html` içindeki `DEFAULT_FROM` / `DEFAULT_TO` ile değiştirilir.

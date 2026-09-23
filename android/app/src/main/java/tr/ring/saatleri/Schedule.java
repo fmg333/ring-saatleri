@@ -17,18 +17,24 @@ import java.util.List;
 /** assets/www/ring-data.json dosyasını okur; widget'ın ihtiyacı olan kalkışları hesaplar. */
 class Schedule {
 
-    /** Bir duraktan bir binişi: hangi ring, hangi yöne, saat kaçta. */
+    /** Bir duraktan bir binişi: ring seferi ya da ek servis (TEK / FM). */
     static class Dep {
-        final String ring;
-        final String dir;
+        final String ring;       // ek serviste null
+        final String label;      // ek servis rozeti: TEK veya FM
+        final String dir;        // yön durağı ya da uğradığı duraklar
         final int time;          // gece yarısından itibaren dakika
         final boolean tomorrow;
 
-        Dep(String ring, String dir, int time, boolean tomorrow) {
+        Dep(String ring, String label, String dir, int time, boolean tomorrow) {
             this.ring = ring;
+            this.label = label;
             this.dir = dir;
             this.time = time;
             this.tomorrow = tomorrow;
+        }
+
+        boolean isExtra() {
+            return ring == null;
         }
     }
 
@@ -112,7 +118,7 @@ class Schedule {
                     if (!stops.getString(i).equals(stop)) {
                         continue;
                     }
-                    // yön: bu duraktan sonra gelen ilk uç durak (G1 / 1100)
+                    // yön: bu duraktan sonra uğradığı ilk uç durak (G1 / G9)
                     String dir = null;
                     for (int j = i + 1; j < stops.length(); j++) {
                         String s = stops.getString(j);
@@ -130,21 +136,79 @@ class Schedule {
                         continue;
                     }
                     for (int t = 0; t < trips.length(); t++) {
-                        int time = trips.getJSONArray(t).getInt(i);
+                        JSONArray times = trips.getJSONArray(t);
+                        if (times.isNull(i)) {
+                            continue;            // bu sefer o durağa uğramıyor
+                        }
+                        int time = times.getInt(i);
                         if (time >= from) {
-                            out.add(new Dep(ring, dir, time, tomorrow));
+                            out.add(new Dep(ring, null, dir, time, tomorrow));
                         }
                     }
                 }
             }
+            out.addAll(oneway(d, stop, dayType, from, tomorrow));
         } catch (Exception e) {
             // veri okunamazsa boş liste
         }
         Collections.sort(out, new Comparator<Dep>() {
             public int compare(Dep a, Dep b) {
-                return a.time != b.time ? a.time - b.time : a.ring.compareTo(b.ring);
+                if (a.time != b.time) {
+                    return a.time - b.time;
+                }
+                return (a.ring == null ? "Z" : a.ring).compareTo(b.ring == null ? "Z" : b.ring);
             }
         });
+        return out;
+    }
+
+    /**
+     * Ek servisler. board="first": sadece ilk duraktan binilir, varış saatleri yok.
+     * board="all": her duraktan binilir, son durakta inilir.
+     */
+    private static List<Dep> oneway(JSONObject d, String stop, String dayType, int from, boolean tomorrow)
+            throws Exception {
+        List<Dep> out = new ArrayList<Dep>();
+        java.util.Set<String> seen = new java.util.HashSet<String>();
+        JSONArray arr = d.optJSONArray("oneway");
+        if (arr == null) {
+            return out;
+        }
+        for (int k = 0; k < arr.length(); k++) {
+            JSONObject o = arr.getJSONObject(k);
+            if (!dayType.equals(o.getString("day"))) {
+                continue;
+            }
+            JSONArray stops = o.getJSONArray("stops");
+            JSONArray times = o.getJSONArray("times");
+            boolean all = "all".equals(o.optString("board"));
+            String label = o.optString("label", "TEK");
+            for (int i = 0; i < stops.length() - 1; i++) {
+                if (!stop.equals(stops.getString(i)) || times.isNull(i)) {
+                    continue;
+                }
+                int time = times.getInt(i);
+                if (time < from) {
+                    continue;
+                }
+                String dir;
+                if (all) {
+                    dir = stops.getString(stops.length() - 1) + " yönü";
+                } else {
+                    StringBuilder sb = new StringBuilder();
+                    for (int j = i + 1; j < stops.length() && j - i <= 6; j++) {
+                        sb.append(j == i + 1 ? "" : ", ").append(stops.getString(j));
+                    }
+                    if (stops.length() - i - 1 > 6) {
+                        sb.append("…");
+                    }
+                    dir = sb.toString();
+                }
+                if (seen.add(time + "|" + label + "|" + dir)) {
+                    out.add(new Dep(null, label, dir, time, tomorrow));
+                }
+            }
+        }
         return out;
     }
 }
