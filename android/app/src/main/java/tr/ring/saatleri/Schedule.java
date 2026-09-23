@@ -182,7 +182,7 @@ class Schedule {
             JSONArray stops = o.getJSONArray("stops");
             JSONArray times = o.getJSONArray("times");
             boolean all = "all".equals(o.optString("board"));
-            String label = o.optString("label", "TEK");
+            String label = o.optString("label", "EK");
             for (int i = 0; i < stops.length() - 1; i++) {
                 if (!stop.equals(stops.getString(i)) || times.isNull(i)) {
                     continue;

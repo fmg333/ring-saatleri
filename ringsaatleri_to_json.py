@@ -203,7 +203,7 @@ def build_oneway(items, rings):
             it["label"] = "FM"                     # fazla mesai ringi
         else:
             times = [t0] + [None] * (len(stops) - 1)
-            it["label"] = "TEK"
+            it["label"] = "EK"
         it["times"] = times
         out.append(it)
     out.sort(key=lambda x: (x["day"], x["times"][0], x["stops"][0]))

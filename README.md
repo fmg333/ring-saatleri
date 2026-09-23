@@ -76,7 +76,7 @@ widget önizlemesi ve uygulama başlığındaki küçük amblem (`index.html` i�
 - **1020 = 1050:** Ring 2 ve 3'te 1020'nin arkasına aynı saatle 1050 eklenir (script'teki `SAME_STOP`).
 - **G9 = eski 1100:** Tablodaki 1100 durağı G9 olarak adlandırılır (`RENAME`), G-1/G-4/G-9 yazımları G1/G4/G9'a sadeleşir.
 - **Ek servisler (`tekyon.csv`):** `binis` sütunu belirler.
-  `ilk` → sadece kalkış durağından binilir, diğerlerinde iniş var, varış saati verilmez (gri **TEK** rozeti).
+  `ilk` → sadece kalkış durağından binilir, diğerlerinde iniş var, varış saati verilmez (gri **EK** rozeti).
   `hepsi` → her duraktan binilir, son durakta inilir; ara saatler ring verisindeki durak arası sürelerden hesaplanır
   (fazla mesai ringleri, gri **FM** rozeti). Ringlerde hiç geçmeyen duraklar için süreler script'teki `LEG_OVERRIDE` tablosundan gelir.
 - **Yarım seferler (`HALF_TRIPS`):** Rotanın ortasından başlayan ring seferleri (ör. G9'dan kalkan 08:05 ve 08:17 Ring 2'leri).
