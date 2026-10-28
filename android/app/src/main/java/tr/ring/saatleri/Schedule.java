@@ -203,6 +203,7 @@ class Schedule {
             JSONArray stops = o.getJSONArray("stops");
             JSONArray times = o.getJSONArray("times");
             boolean all = "all".equals(o.optString("board"));
+            boolean uncertain = o.optBoolean("uncertain", false);   // resmi listede yok
             String label = o.optString("label", "EK");
             for (int i = 0; i < stops.length() - 1; i++) {
                 if (!stop.equals(stops.getString(i)) || times.isNull(i)) {
@@ -224,6 +225,9 @@ class Schedule {
                         sb.append("…");
                     }
                     dir = sb.toString();
+                }
+                if (uncertain) {
+                    dir = "! " + dir;        // gelmeyebilir
                 }
                 if (seen.add(time + "|" + label + "|" + dir)) {
                     out.add(new Dep(null, label, dir, time, tomorrow));

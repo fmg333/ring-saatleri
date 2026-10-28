@@ -94,6 +94,11 @@ widget önizlemesi ve uygulama başlığındaki küçük amblem (`index.html` i�
   `ilk` → sadece kalkış durağından binilir, diğerlerinde iniş var, varış saati verilmez (gri **EK** rozeti).
   `hepsi` → her duraktan binilir, son durakta inilir; ara saatler ring verisindeki durak arası sürelerden hesaplanır
   (fazla mesai ringleri, gri **FM** rozeti). Ringlerde hiç geçmeyen duraklar için süreler script'teki `LEG_OVERRIDE` tablosundan gelir.
+- **Belirsiz seferler:** `tekyon.csv` içindeki `belirsiz` sütununa `1` yazılan servisler resmi listede olmayan,
+  genelde gelen ama garanti olmayan seferlerdir. Uygulamada yanlarında ünlem çıkar, dokununca açıklama açılır;
+  widget'ta satır `!` ile başlar.
+- **Gün tipi:** Uygulama her açılışta o günün tipiyle başlar. Üstten elle seçersen seçim uygulama kapanana kadar kalır,
+  saat ilerlemesi bozmaz; bugünün tipine dönmek için o düğmeye ya da *Şimdi*'ye bas.
 - **Yarım seferler (`HALF_TRIPS`):** Rotanın ortasından başlayan ring seferleri (ör. G9'dan kalkan 08:05 ve 08:17 Ring 2'leri).
   Ara durak saatleri o ringin normal sefer süresinden türetilir; önceki duraklar o sefer için boş bırakılır.
 - **Açılış durakları:** Son seçtiğin iki durak hatırlanır. Hiç seçim yoksa (ilk açılış ya da tarayıcı kaydı sildiyse) 1050 → 1100 gelir; `index.html` içindeki `DEFAULT_FROM` / `DEFAULT_TO` ile değiştirilir.

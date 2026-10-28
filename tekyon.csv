@@ -3,7 +3,8 @@
 # kalkis : ilk durak,  saat: o duraktan kalkış (HH:MM),  varislar: sonraki duraklar, "-" ile
 # binis  : ilk  -> sadece kalkış durağından binilir, diğerleri iniş (varış saati verilmez)
 #          hepsi-> her duraktan binilir, son durakta inilir; ara saatler ring sürelerinden hesaplanır
-gun,kalkis,saat,varislar,not,binis
+# belirsiz : 1 -> resmi listede yok, gelmeyebilir; uygulamada yanında ünlem çıkar
+gun,kalkis,saat,varislar,not,binis,belirsiz
 haftaici,G1,06:10,10-20-40-220-320-710-950-960-1050-961-750-557-202-850,,
 haftaici,G1,06:35,10-20-40-220-320-710-950-960-1050-961-750-557-202-850,,
 haftaici,G1,06:45,10-20-40-220-320-710-950-960-1050-961-750-557-202-850,,
@@ -84,3 +85,6 @@ haftaici,1030,19:03,1050-960-950-810-G1,fazla mesai,hepsi
 haftaici,1050,19:03,960-950-810-G1,fazla mesai,hepsi
 haftaici,961,19:03,910-850-200-G1,fazla mesai,hepsi
 haftaici,710,19:03,320-220-40-20-G1,fazla mesai,hepsi
+haftasonu,G9,06:45,1030-1050-960-950-850-202-557-750-760,,,1
+haftasonu,G9,06:52,1030-1050-950-960,,,1
+haftasonu,G9,06:52,750-557-202-850-910,,,1

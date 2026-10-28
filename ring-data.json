@@ -8020,6 +8020,78 @@
     1151,
     1156
    ]
+  },
+  {
+   "day": "weekend",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "960",
+    "950",
+    "850",
+    "202",
+    "557",
+    "750",
+    "760"
+   ],
+   "board": "first",
+   "uncertain": true,
+   "label": "EK",
+   "times": [
+    405,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekend",
+   "stops": [
+    "G9",
+    "1030",
+    "1050",
+    "950",
+    "960"
+   ],
+   "board": "first",
+   "uncertain": true,
+   "label": "EK",
+   "times": [
+    412,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  {
+   "day": "weekend",
+   "stops": [
+    "G9",
+    "750",
+    "557",
+    "202",
+    "850",
+    "910"
+   ],
+   "board": "first",
+   "uncertain": true,
+   "label": "EK",
+   "times": [
+    412,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
   }
  ]
 }

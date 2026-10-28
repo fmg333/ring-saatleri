@@ -183,8 +183,10 @@ def parse_oneway(path):
                 "t0": to_minutes(row["saat"]),
                 "board": "all" if row.get("binis", "").strip().lower() == "hepsi" else "first",
             }
-            if row.get("not", "").strip():
-                item["note"] = row["not"].strip()
+            if (row.get("not") or "").strip():
+                item["note"] = (row["not"] or "").strip()
+            if (row.get("belirsiz") or "").strip():
+                item["uncertain"] = True       # resmi listede yok, gelmeyebilir
             out.append(item)
     return out
 
