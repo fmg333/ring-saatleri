@@ -1,13 +1,9 @@
 package tr.ring.saatleri;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,23 +35,9 @@ class Updater {
         void onNewVersion(String tag, String apkUrl, String pageUrl);
     }
 
-    /** APK indirme ilerlemesi. */
-    interface ApkListener {
-        void onProgress(int percent);   // -1: boyut bilinmiyor
-
-        void onReady();
-
-        void onFailed();
-    }
-
     /** İndirilmiş dosyanın yolu; yoksa APK içindeki kopya kullanılır. */
     static File localFile(Context c, String name) {
         return new File(new File(c.getFilesDir(), "www"), name);
-    }
-
-    /** İndirilen kurulum dosyası; ApkProvider bunu sistem kurulum ekranına açar. */
-    static File apkFile(Context c) {
-        return new File(new File(c.getFilesDir(), "update"), "ring-saatleri.apk");
     }
 
     /**
@@ -266,105 +248,6 @@ class Updater {
             }
         }
         return "";
-    }
-
-    /** APK'yı indirir; biter bitmez kurulum ekranı açılabilir. */
-    static void downloadApk(Context c, final String url, final ApkListener cb) {
-        final Context app = c.getApplicationContext();
-        final Handler main = new Handler(Looper.getMainLooper());
-        new Thread(new Runnable() {
-            public void run() {
-                HttpURLConnection conn = null;
-                try {
-                    conn = (HttpURLConnection) new URL(url).openConnection();
-                    conn.setConnectTimeout(TIMEOUT);
-                    conn.setReadTimeout(30000);
-                    if (conn.getResponseCode() != 200) {
-                        throw new Exception("HTTP " + conn.getResponseCode());
-                    }
-                    long total = conn.getContentLengthLong();
-
-                    File dir = new File(app.getFilesDir(), "update");
-                    dir.mkdirs();
-                    File tmp = new File(dir, "download.tmp");
-                    InputStream in = conn.getInputStream();
-                    FileOutputStream out = new FileOutputStream(tmp);
-                    byte[] buf = new byte[16384];
-                    long got = 0;
-                    int n;
-                    int last = -2;
-                    while ((n = in.read(buf)) > 0) {
-                        out.write(buf, 0, n);
-                        got += n;
-                        final int pct = total > 0 ? (int) (got * 100 / total) : -1;
-                        if (pct != last) {
-                            last = pct;
-                            main.post(new Runnable() {
-                                public void run() {
-                                    cb.onProgress(pct);
-                                }
-                            });
-                        }
-                    }
-                    out.close();
-                    in.close();
-
-                    if (got < 100000 || (total > 0 && got != total)) {
-                        throw new Exception("eksik indirme");   // yarım dosya kurulmaya çalışılmasın
-                    }
-                    File dst = apkFile(app);
-                    if (dst.exists()) {
-                        dst.delete();
-                    }
-                    if (!tmp.renameTo(dst)) {
-                        tmp.delete();
-                        throw new Exception("taşınamadı");
-                    }
-                    main.post(new Runnable() {
-                        public void run() {
-                            cb.onReady();
-                        }
-                    });
-                } catch (Exception e) {
-                    main.post(new Runnable() {
-                        public void run() {
-                            cb.onFailed();
-                        }
-                    });
-                } finally {
-                    if (conn != null) {
-                        conn.disconnect();
-                    }
-                }
-            }
-        }).start();
-    }
-
-    /** Android 8+ : uygulamanın kurulum yapma izni var mı. */
-    static boolean canInstall(Context c) {
-        if (Build.VERSION.SDK_INT < 26) {
-            return true;
-        }
-        return c.getPackageManager().canRequestPackageInstalls();
-    }
-
-    /** "Bilinmeyen kaynaklardan yükleme" ayar ekranı. */
-    static Intent permissionIntent(Context c) {
-        return new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                Uri.parse("package:" + c.getPackageName()));
-    }
-
-    /** İndirilen APK'nın sistem kurulum ekranı. */
-    static Intent installIntent(Context c) {
-        Uri uri = Uri.parse("content://" + c.getPackageName() + ".apk/ring-saatleri.apk");
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(uri, "application/vnd.android.package-archive");
-        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
-        return i;
-    }
-
-    static boolean apkReady(Context c) {
-        return apkFile(c).length() > 100000;
     }
 
     /** Sürüm etiketindeki sayı: "apk-42" -> 42 */
