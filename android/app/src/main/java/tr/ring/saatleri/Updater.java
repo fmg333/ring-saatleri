@@ -1,10 +1,15 @@
 package tr.ring.saatleri;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -13,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 /**
  * Uygulama açılınca GitHub Pages'teki güncel saatleri indirir ve telefona yazar; böylece saat
@@ -29,12 +35,27 @@ class Updater {
     interface Listener {
         void onDataUpdated();
 
-        void onNewVersion(String tag, String pageUrl);
+        /** apkUrl: doğrudan indirme adresi (yoksa boş), pageUrl: Releases sayfası (yedek). */
+        void onNewVersion(String tag, String apkUrl, String pageUrl);
+    }
+
+    /** APK indirme ilerlemesi. */
+    interface ApkListener {
+        void onProgress(int percent);   // -1: boyut bilinmiyor
+
+        void onReady();
+
+        void onFailed();
     }
 
     /** İndirilmiş dosyanın yolu; yoksa APK içindeki kopya kullanılır. */
     static File localFile(Context c, String name) {
         return new File(new File(c.getFilesDir(), "www"), name);
+    }
+
+    /** İndirilen kurulum dosyası; ApkProvider bunu sistem kurulum ekranına açar. */
+    static File apkFile(Context c) {
+        return new File(new File(c.getFilesDir(), "update"), "ring-saatleri.apk");
     }
 
     /**
@@ -52,14 +73,18 @@ class Updater {
         if (p.getInt("apk_version", -1) == v) {
             return;
         }
-        File dir = new File(c.getFilesDir(), "www");
+        clear(new File(c.getFilesDir(), "www"));
+        clear(new File(c.getFilesDir(), "update"));   // kurulan APK'nın kopyası yer kaplamasın
+        p.edit().clear().putInt("apk_version", v).apply();
+    }
+
+    private static void clear(File dir) {
         File[] files = dir.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
                 files[i].delete();
             }
         }
-        p.edit().clear().putInt("apk_version", v).apply();
     }
 
     /**
@@ -210,16 +235,136 @@ class Updater {
         conn.disconnect();
 
         final String tag = o.optString("tag_name", "");
-        final String url = o.optString("html_url", "");
+        final String page = o.optString("html_url", "");
+        final String apk = apkAsset(o);
         int current = c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionCode;
         if (digits(tag) <= current || tag.equals(p.getString("skip_tag", ""))) {
             return;
         }
         main.post(new Runnable() {
             public void run() {
-                listener.onNewVersion(tag, url);
+                listener.onNewVersion(tag, apk, page);
             }
         });
+    }
+
+    /** Sürümün eklerinden .apk dosyasının doğrudan indirme adresi. */
+    private static String apkAsset(JSONObject release) {
+        JSONArray assets = release.optJSONArray("assets");
+        if (assets == null) {
+            return "";
+        }
+        for (int i = 0; i < assets.length(); i++) {
+            JSONObject a = assets.optJSONObject(i);
+            if (a == null) {
+                continue;
+            }
+            String name = a.optString("name", "");
+            String url = a.optString("browser_download_url", "");
+            if (name.toLowerCase(Locale.US).endsWith(".apk") && url.length() > 0) {
+                return url;
+            }
+        }
+        return "";
+    }
+
+    /** APK'yı indirir; biter bitmez kurulum ekranı açılabilir. */
+    static void downloadApk(Context c, final String url, final ApkListener cb) {
+        final Context app = c.getApplicationContext();
+        final Handler main = new Handler(Looper.getMainLooper());
+        new Thread(new Runnable() {
+            public void run() {
+                HttpURLConnection conn = null;
+                try {
+                    conn = (HttpURLConnection) new URL(url).openConnection();
+                    conn.setConnectTimeout(TIMEOUT);
+                    conn.setReadTimeout(30000);
+                    if (conn.getResponseCode() != 200) {
+                        throw new Exception("HTTP " + conn.getResponseCode());
+                    }
+                    long total = conn.getContentLengthLong();
+
+                    File dir = new File(app.getFilesDir(), "update");
+                    dir.mkdirs();
+                    File tmp = new File(dir, "download.tmp");
+                    InputStream in = conn.getInputStream();
+                    FileOutputStream out = new FileOutputStream(tmp);
+                    byte[] buf = new byte[16384];
+                    long got = 0;
+                    int n;
+                    int last = -2;
+                    while ((n = in.read(buf)) > 0) {
+                        out.write(buf, 0, n);
+                        got += n;
+                        final int pct = total > 0 ? (int) (got * 100 / total) : -1;
+                        if (pct != last) {
+                            last = pct;
+                            main.post(new Runnable() {
+                                public void run() {
+                                    cb.onProgress(pct);
+                                }
+                            });
+                        }
+                    }
+                    out.close();
+                    in.close();
+
+                    if (got < 100000 || (total > 0 && got != total)) {
+                        throw new Exception("eksik indirme");   // yarım dosya kurulmaya çalışılmasın
+                    }
+                    File dst = apkFile(app);
+                    if (dst.exists()) {
+                        dst.delete();
+                    }
+                    if (!tmp.renameTo(dst)) {
+                        tmp.delete();
+                        throw new Exception("taşınamadı");
+                    }
+                    main.post(new Runnable() {
+                        public void run() {
+                            cb.onReady();
+                        }
+                    });
+                } catch (Exception e) {
+                    main.post(new Runnable() {
+                        public void run() {
+                            cb.onFailed();
+                        }
+                    });
+                } finally {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    /** Android 8+ : uygulamanın kurulum yapma izni var mı. */
+    static boolean canInstall(Context c) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return true;
+        }
+        return c.getPackageManager().canRequestPackageInstalls();
+    }
+
+    /** "Bilinmeyen kaynaklardan yükleme" ayar ekranı. */
+    static Intent permissionIntent(Context c) {
+        return new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                Uri.parse("package:" + c.getPackageName()));
+    }
+
+    /** İndirilen APK'nın sistem kurulum ekranı. */
+    static Intent installIntent(Context c) {
+        Uri uri = Uri.parse("content://" + c.getPackageName() + ".apk/ring-saatleri.apk");
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setDataAndType(uri, "application/vnd.android.package-archive");
+        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return i;
+    }
+
+    static boolean apkReady(Context c) {
+        return apkFile(c).length() > 100000;
     }
 
     /** Sürüm etiketindeki sayı: "apk-42" -> 42 */

@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
     private static final String ASSET_PAGE = "file:///android_asset/www/index.html";
 
     private WebView web;
+    private boolean pendingInstall;      // izin ekranından dönünce kuruluma devam edilsin mi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +71,16 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "Saatler güncellendi", Toast.LENGTH_SHORT).show();
             }
 
-            public void onNewVersion(final String tag, final String pageUrl) {
+            public void onNewVersion(final String tag, final String apkUrl, final String pageUrl) {
                 if (isFinishing()) {
                     return;
                 }
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Yeni sürüm var")
-                        .setMessage("Uygulamanın yeni sürümü yayınlanmış. İndirme sayfasını açayım mı?")
-                        .setPositiveButton("Aç", new DialogInterface.OnClickListener() {
+                        .setMessage("Uygulamanın yeni sürümü yayınlanmış. İndirip kurayım mı?")
+                        .setPositiveButton("İndir ve kur", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface d, int which) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(pageUrl)));
+                                download(apkUrl, pageUrl);
                             }
                         })
                         .setNegativeButton("Sonra", new DialogInterface.OnClickListener() {
@@ -90,6 +91,94 @@ public class MainActivity extends Activity {
                         .show();
             }
         }, false);
+    }
+
+    /** APK'yı uygulama içinde indirir, bitince kurulumu başlatır. */
+    private void download(final String apkUrl, final String pageUrl) {
+        if (apkUrl == null || apkUrl.length() == 0) {
+            open(pageUrl);                     // sürümde APK eki yoksa Releases sayfası
+            return;
+        }
+        final AlertDialog dlg = new AlertDialog.Builder(this)
+                .setTitle("Yeni sürüm")
+                .setMessage("İndiriliyor…")
+                .setCancelable(false)
+                .create();
+        dlg.show();
+        Updater.downloadApk(this, apkUrl, new Updater.ApkListener() {
+            public void onProgress(int percent) {
+                if (dlg.isShowing()) {
+                    dlg.setMessage(percent < 0 ? "İndiriliyor…" : "İndiriliyor… %" + percent);
+                }
+            }
+
+            public void onReady() {
+                close(dlg);
+                install(pageUrl);
+            }
+
+            public void onFailed() {
+                close(dlg);
+                Toast.makeText(MainActivity.this, "İndirilemedi, tarayıcıda açılıyor", Toast.LENGTH_SHORT).show();
+                open(apkUrl);                  // tarayıcı indirmeyi sürdürsün
+            }
+        });
+    }
+
+    /** Kurulum ekranını açar; izin yoksa önce izni ister. */
+    private void install(final String pageUrl) {
+        if (isFinishing()) {
+            return;
+        }
+        if (!Updater.canInstall(this)) {
+            askInstallPermission();
+            return;
+        }
+        pendingInstall = false;
+        try {
+            startActivity(Updater.installIntent(this));
+        } catch (Exception e) {
+            open(pageUrl);
+        }
+    }
+
+    private void askInstallPermission() {
+        new AlertDialog.Builder(this)
+                .setTitle("Kurulum izni")
+                .setMessage("Kurulumu başlatmak için bu uygulamaya \"bilinmeyen kaynaklardan yükleme\" "
+                        + "izni vermen gerekiyor. Ayarları açayım mı?")
+                .setPositiveButton("Ayarları aç", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface d, int which) {
+                        pendingInstall = true;     // izinden dönünce kuruluma devam
+                        try {
+                            startActivity(Updater.permissionIntent(MainActivity.this));
+                        } catch (Exception e) {
+                            pendingInstall = false;
+                            Toast.makeText(MainActivity.this, "Ayarlar açılamadı", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Vazgeç", null)
+                .show();
+    }
+
+    private void close(AlertDialog d) {
+        try {
+            d.dismiss();
+        } catch (Exception e) {
+            // ekran kapanmışsa önemli değil
+        }
+    }
+
+    private void open(String url) {
+        if (url == null || url.length() == 0) {
+            return;
+        }
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Exception e) {
+            Toast.makeText(this, "Bağlantı açılamadı", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -105,6 +194,12 @@ public class MainActivity extends Activity {
         web.onResume();
         // Uygulama öne gelince saati hemen tazele
         web.evaluateJavascript("window.dispatchEvent(new Event('focus'))", null);
+
+        // İzin ekranından izin verilerek dönüldüyse kuruluma kaldığı yerden devam et
+        if (pendingInstall && Updater.canInstall(this) && Updater.apkReady(this)) {
+            pendingInstall = false;
+            install("");
+        }
     }
 
     @Override
