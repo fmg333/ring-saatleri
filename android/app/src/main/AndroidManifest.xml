@@ -4,6 +4,8 @@
     <!-- Saat güncellemelerini GitHub Pages'ten çekmek için -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Yeni sürümü indirip kurulum ekranını açmak için -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:label="@string/app_name"
@@ -35,6 +37,13 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/ring_widget_info" />
         </receiver>
+
+        <!-- İndirilen APK'yı kurulum ekranına açan sağlayıcı -->
+        <provider
+            android:name=".ApkProvider"
+            android:authorities="${applicationId}.apk"
+            android:exported="false"
+            android:grantUriPermissions="true" />
 
         <!-- Widget eklenirken durak soran ekran -->
         <activity
