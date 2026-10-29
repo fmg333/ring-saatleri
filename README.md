@@ -39,11 +39,13 @@ Saat değişikliğinde kimseye yeni APK atmana gerek yok:
   dosyalarına bakar, değiştiyse indirip telefona yazar. Widget da bu kopyayı kullanır. İnternet yoksa
   APK'nın içindeki sürümle çalışmaya devam eder. Güncelleme inince "Saatler güncellendi" yazısı çıkar.
 - **APK'nın kendisi** değiştiğinde (yeni özellik, ikon, arayüz) uygulama Releases'teki son sürüme bakar ve
-  daha yenisi varsa "İndirip kurayım mı?" diye sorar. Evet denirse APK'yı uygulama içinde indirir
-  (yüzde göstererek) ve biter bitmez sistemin kurulum ekranını açar — tarayıcıya ya da Releases sayfasına
-  uğramaz. Android 8+ ilk seferde "bilinmeyen kaynaklardan yükleme" izni ister; uygulama ayar ekranını açar,
-  izin verilip geri dönülünce kurulum kaldığı yerden devam eder. İndirme başarısız olursa APK'nın adresi
-  tarayıcıda açılır (indirme orada sürer). Sadece saatler değiştiyse bunların hiçbiri gerekmez.
+  daha yenisi varsa "İndirmeyi başlatayım mı?" diye sorar. Evet denirse APK'nın doğrudan adresi açılır,
+  tarayıcı indirmeye hemen başlar; kurulumu indirme bildirimine dokunarak yaparsın. Sadece saatler
+  değiştiyse buna gerek kalmaz.
+
+  Kurulumu uygulamanın kendi içinde başlatmak teknik olarak mümkün ama `REQUEST_INSTALL_PACKAGES` izni
+  gerektiriyor; Play Protect yandan kurulan uygulamalarda bu izni zararlı yazılım göstergesi sayıp kurulumu
+  engellediği için o yol bilerek kullanılmıyor.
 
 Adresler derleme sırasında repo adından otomatik doldurulur (`android/app/build.gradle` içindeki
 `repoSlug` / `pagesUrl`), elle bir şey yazman gerekmiyor. Yeni APK kurulunca indirilmiş kopyalar
@@ -82,7 +84,7 @@ widget önizlemesi ve uygulama başlığındaki küçük amblem (`index.html` i�
 | `ringsaatleri_to_json.py`, `ringsaatleri.xlsx` | Saat tablosu ve onu HTML'e gömen script (`SAME_STOP` ile aynı-yer durakları) |
 | `logo.png`, `icons.py` | Logo ve ondan bütün ikonları üreten script |
 | `icons_drawn.py` | Koddan çizilen alternatif ikon tasarımı |
-| `android/` | APK: WebView sarmalayıcı + widget + kendini güncelleme (Java, dış bağımlılık yok) |
+| `android/` | APK: WebView sarmalayıcı + widget + güncelleme kontrolü (Java, dış bağımlılık yok) |
 | `android/app/ring.keystore` | APK imza anahtarı; güncellemelerin üstüne kurulabilmesi için sabit. Şifre `ringsaatleri`. |
 | `.github/workflows/android.yml` | APK'yı derleyip Releases'e koyan iş akışı |
 
